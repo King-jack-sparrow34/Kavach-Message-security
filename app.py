@@ -247,3 +247,4 @@ with tab2:
                 st.error("Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
