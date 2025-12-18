@@ -6,6 +6,213 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
+import streamlit as st
+
+# =========================
+# PAGE CONFIG (FIRST LINE)
+# =========================
+st.set_page_config(
+    page_title="Project KAVACH",
+    page_icon="🛡️",
+    layout="wide"
+)
+
+# =========================
+# ADVANCED CYBER UI (PRO)
+# =========================
+st.markdown("""
+<style>
+
+/* ===== ROOT COLORS ===== */
+:root {
+    --neon: #00ff9c;
+    --bg: #020806;
+    --panel: rgba(0, 10, 8, 0.92);
+    --border: rgba(0,255,156,0.45);
+    --glow: rgba(0,255,156,0.25);
+}
+
+/* ===== BASE APP ===== */
+.stApp {
+    background: radial-gradient(circle at top, #02130c, #000);
+    color: var(--neon);
+    font-family: "JetBrains Mono", "Courier New", monospace;
+}
+
+/* ===== CRT NOISE ===== */
+.stApp::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ===== SCAN SWEEP ===== */
+.stApp::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0,255,156,0.06) 50%,
+        transparent 100%
+    );
+    animation: sweep 6s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes sweep {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(100%); }
+}
+
+/* ===== MAIN PANEL ===== */
+.block-container {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow:
+        0 0 30px var(--glow),
+        inset 0 0 25px rgba(0,255,156,0.05);
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== HEADER GLITCH (SUBTLE) ===== */
+@keyframes glitch {
+    0% { text-shadow: 0 0 6px var(--neon); }
+    50% { text-shadow: -1px 0 #00ffaa, 1px 0 #00cc88; }
+    100% { text-shadow: 0 0 6px var(--neon); }
+}
+
+h1 {
+    animation: glitch 4s infinite;
+    letter-spacing: 2px;
+}
+
+/* ===== TERMINAL TYPE LINE ===== */
+.typewriter {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid var(--neon);
+    width: 0;
+    animation:
+        typing 4s steps(48, end) forwards,
+        blink 0.8s step-end infinite;
+}
+
+@keyframes typing {
+    to { width: 100%; }
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+/* ===== INPUTS ===== */
+.stTextInput input,
+.stTextArea textarea {
+    background: rgba(0,0,0,0.6);
+    color: var(--neon);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: inset 0 0 12px rgba(0,255,156,0.08);
+}
+
+/* ===== BUTTONS ===== */
+.stButton > button {
+    background: transparent;
+    color: var(--neon);
+    border: 1.5px solid var(--neon);
+    border-radius: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.25s ease;
+}
+
+.stButton > button:hover {
+    background: var(--neon);
+    color: #000;
+    box-shadow: 0 0 25px var(--neon);
+    transform: translateY(-1px);
+}
+
+/* ===== TABS ===== */
+.stTabs [data-baseweb="tab"] {
+    background: rgba(0,0,0,0.55);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--neon);
+}
+
+.stTabs [aria-selected="true"] {
+    background: var(--neon) !important;
+    color: #000 !important;
+}
+
+/* ===== DIVIDER ===== */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        var(--neon),
+        transparent
+    );
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# =========================
+# UI CONTENT
+# =========================
+st.title("🛡️ PROJECT KAVACH")
+st.markdown(
+    '<div class="typewriter">[ SYSTEM ONLINE • SECURE CHANNEL ACTIVE ]</div>',
+    unsafe_allow_html=True
+)
+
+st.divider()
+
+tab1, tab2 = st.tabs(["🔒 ENCRYPT", "🔓 DECRYPT"])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
 # =========================
 # PAGE CONFIG
 # =========================
@@ -139,7 +346,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
+'''
 # =========================
 # CRYPTO FUNCTIONS (BYTE SAFE)
 # =========================
@@ -204,7 +411,7 @@ def decode_image(image):
     return bytes(
         int(data_bits[i:i+8], 2) for i in range(0, len(data_bits), 8)
     )
-
+'''
 # =========================
 # UI
 # =========================
@@ -215,7 +422,7 @@ st.title("🛡️ PROJECT KAVACH")
 st.markdown('<div class="typewriter">[ SYSTEM ONLINE • SECURE CHANNEL ACTIVE ]</div>',unsafe_allow_html=True)
 st.divider()
 tab1, tab2 = st.tabs(["🔒 ENCRYPT", "🔓 DECRYPT"])
-
+'''
 # -------- ENCRYPT --------
 with tab1:
     img = st.file_uploader("Upload Image", type=["png", "jpg"])
@@ -258,5 +465,6 @@ with tab2:
                 st.error("❌ Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
 
 
