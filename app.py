@@ -208,10 +208,12 @@ def decode_image(image):
 # =========================
 # UI
 # =========================
+#st.title("🛡️ PROJECT KAVACH")
+#st.markdown("`SYSTEM ONLINE • SECURE CHANNEL ACTIVE`")
+#st.divider()
 st.title("🛡️ PROJECT KAVACH")
-st.markdown("`SYSTEM ONLINE • SECURE CHANNEL ACTIVE`")
+st.markdown('<div class="typewriter">[ SYSTEM ONLINE • SECURE CHANNEL ACTIVE ]</div>',unsafe_allow_html=True)
 st.divider()
-
 tab1, tab2 = st.tabs(["🔒 ENCRYPT", "🔓 DECRYPT"])
 
 # -------- ENCRYPT --------
@@ -256,4 +258,5 @@ with tab2:
                 st.error("❌ Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
 
