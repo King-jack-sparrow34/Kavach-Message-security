@@ -6,9 +6,8 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
-
 # =========================
-# PAGE CONFIG (FIRST LINE)
+# PAGE CONFIG (MUST BE FIRST)
 # =========================
 st.set_page_config(
     page_title="Project KAVACH",
@@ -17,39 +16,45 @@ st.set_page_config(
 )
 
 # =========================
-# ADVANCED CYBER UI (PRO)
+# HOLLYWOOD CYBER UI
 # =========================
 st.markdown("""
 <style>
 
-/* ===== ROOT COLORS ===== */
+/* ===== CINEMATIC COLOR SYSTEM ===== */
 :root {
-    --neon: #00ff9c;
-    --bg: #020806;
-    --panel: rgba(0, 10, 8, 0.92);
-    --border: rgba(0,255,156,0.45);
-    --glow: rgba(0,255,156,0.25);
+    --neon: #00ffb3;
+    --dark: #000402;
+    --panel: rgba(0, 12, 9, 0.94);
+    --line: rgba(0,255,179,0.35);
+    --glow: rgba(0,255,179,0.22);
 }
 
-/* ===== BASE APP ===== */
+/* ===== BASE ===== */
 .stApp {
-    background: radial-gradient(circle at top, #02130c, #000);
+    background:
+        radial-gradient(1200px circle at top, #02231a, #000);
     color: var(--neon);
-    font-family: "JetBrains Mono", "Courier New", monospace;
+    font-family: "JetBrains Mono", Consolas, monospace;
 }
 
-/* ===== CRT NOISE ===== */
+/* ===== CRT CURVATURE ===== */
+.stApp {
+    transform: perspective(1200px) translateZ(0);
+}
+
+/* ===== FILM GRAIN ===== */
 .stApp::after {
     content: "";
     position: fixed;
     inset: 0;
     background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-    opacity: 0.04;
+    opacity: 0.035;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
 }
 
-/* ===== SCAN SWEEP ===== */
+/* ===== HORIZONTAL SIGNAL SCAN ===== */
 .stApp::before {
     content: "";
     position: fixed;
@@ -57,55 +62,68 @@ st.markdown("""
     background: linear-gradient(
         to bottom,
         transparent 0%,
-        rgba(0,255,156,0.06) 50%,
+        rgba(0,255,179,0.08) 50%,
         transparent 100%
     );
-    animation: sweep 6s linear infinite;
+    animation: scanBeam 7s linear infinite;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
 }
 
-@keyframes sweep {
-    from { transform: translateY(-100%); }
-    to { transform: translateY(100%); }
+@keyframes scanBeam {
+    from { transform: translateY(-120%); }
+    to { transform: translateY(120%); }
 }
 
 /* ===== MAIN PANEL ===== */
 .block-container {
     background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 32px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 34px;
     box-shadow:
-        0 0 30px var(--glow),
-        inset 0 0 25px rgba(0,255,156,0.05);
+        0 0 35px var(--glow),
+        inset 0 0 30px rgba(0,255,179,0.06);
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
-/* ===== HEADER GLITCH (SUBTLE) ===== */
-@keyframes glitch {
-    0% { text-shadow: 0 0 6px var(--neon); }
-    50% { text-shadow: -1px 0 #00ffaa, 1px 0 #00cc88; }
-    100% { text-shadow: 0 0 6px var(--neon); }
+/* ===== BOOT SEQUENCE TEXT ===== */
+.boot {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    line-height: 1.6;
+    animation: bootGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes bootGlow {
+    from { text-shadow: 0 0 4px var(--neon); }
+    to { text-shadow: 0 0 10px var(--neon); }
+}
+
+/* ===== HEADER (EVENT GLITCH) ===== */
+@keyframes cinematicGlitch {
+    0% { text-shadow: 0 0 8px var(--neon); }
+    48% { text-shadow: 0 0 8px var(--neon); }
+    49% { text-shadow: -2px 0 #00ffd5, 2px 0 #00cc99; }
+    50% { text-shadow: 0 0 10px var(--neon); }
+    100% { text-shadow: 0 0 8px var(--neon); }
 }
 
 h1 {
-    animation: glitch 4s infinite;
-    letter-spacing: 2px;
+    animation: cinematicGlitch 12s infinite;
+    letter-spacing: 3px;
 }
 
-/* ===== TERMINAL TYPE LINE ===== */
+/* ===== TYPEWRITER STATUS ===== */
 .typewriter {
-    font-size: 0.95rem;
-    opacity: 0.85;
     white-space: nowrap;
     overflow: hidden;
     border-right: 2px solid var(--neon);
     width: 0;
     animation:
-        typing 4s steps(48, end) forwards,
-        blink 0.8s step-end infinite;
+        typing 3.5s steps(44, end) forwards,
+        blink 0.8s infinite;
 }
 
 @keyframes typing {
@@ -116,45 +134,45 @@ h1 {
     50% { border-color: transparent; }
 }
 
-/* ===== INPUTS ===== */
+/* ===== INPUT TERMINAL ===== */
 .stTextInput input,
 .stTextArea textarea {
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.7);
     color: var(--neon);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    box-shadow: inset 0 0 12px rgba(0,255,156,0.08);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: inset 0 0 14px rgba(0,255,179,0.1);
 }
 
-/* ===== BUTTONS ===== */
+/* ===== TACTICAL BUTTONS ===== */
 .stButton > button {
     background: transparent;
     color: var(--neon);
-    border: 1.5px solid var(--neon);
+    border: 1.6px solid var(--neon);
     border-radius: 14px;
-    font-weight: 600;
-    letter-spacing: 1px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
     transition: all 0.25s ease;
 }
 
 .stButton > button:hover {
     background: var(--neon);
-    color: #000;
-    box-shadow: 0 0 25px var(--neon);
+    color: #00110b;
+    box-shadow: 0 0 30px var(--neon);
     transform: translateY(-1px);
 }
 
 /* ===== TABS ===== */
 .stTabs [data-baseweb="tab"] {
     background: rgba(0,0,0,0.55);
-    border: 1px solid var(--border);
+    border: 1px solid var(--line);
     border-radius: 12px;
     color: var(--neon);
 }
 
 .stTabs [aria-selected="true"] {
     background: var(--neon) !important;
-    color: #000 !important;
+    color: #00110b !important;
 }
 
 /* ===== DIVIDER ===== */
@@ -176,6 +194,17 @@ hr {
 # UI CONTENT
 # =========================
 st.title("🛡️ PROJECT KAVACH")
+
+st.markdown("""
+<div class="boot">
+[ BOOT SEQUENCE INITIALIZED ]<br>
+→ Loading cryptographic modules<br>
+→ Verifying entropy sources<br>
+→ Secure enclave established<br>
+→ Defense matrix: <b>ONLINE</b>
+</div>
+""", unsafe_allow_html=True)
+
 st.markdown(
     '<div class="typewriter">[ SYSTEM ONLINE • SECURE CHANNEL ACTIVE ]</div>',
     unsafe_allow_html=True
@@ -184,9 +213,6 @@ st.markdown(
 st.divider()
 
 tab1, tab2 = st.tabs(["🔒 ENCRYPT", "🔓 DECRYPT"])
-
-
-
 
 
 
@@ -330,6 +356,7 @@ with tab2:
                 st.error("❌ Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
 
 
 
