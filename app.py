@@ -6,8 +6,9 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
+
 # =========================
-# PAGE CONFIG (MUST BE FIRST)
+# PAGE CONFIG (FIRST LINE)
 # =========================
 st.set_page_config(
     page_title="Project KAVACH",
@@ -16,143 +17,170 @@ st.set_page_config(
 )
 
 # =========================
-# HOLLYWOOD CYBER UI
+# CINEMATIC CYBER UI
 # =========================
 st.markdown("""
 <style>
 
-/* ===== CINEMATIC COLOR SYSTEM ===== */
+/* ===== COLOR SYSTEM ===== */
 :root {
     --neon: #00ffb3;
     --dark: #000402;
-    --panel: rgba(0, 12, 9, 0.94);
+    --panel: rgba(0, 12, 9, 0.95);
     --line: rgba(0,255,179,0.35);
     --glow: rgba(0,255,179,0.22);
 }
 
 /* ===== BASE ===== */
 .stApp {
-    background:
-        radial-gradient(1200px circle at top, #02231a, #000);
+    background: radial-gradient(circle at top, #02231a, #000);
     color: var(--neon);
     font-family: "JetBrains Mono", Consolas, monospace;
 }
 
-/* ===== CRT CURVATURE ===== */
-.stApp {
-    transform: perspective(1200px) translateZ(0);
-}
-
-/* ===== FILM GRAIN ===== */
-.stApp::after {
-    content: "";
+/* ===== FULLSCREEN BOOT OVERLAY ===== */
+#boot-screen {
     position: fixed;
     inset: 0;
-    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-    opacity: 0.035;
+    background: black;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    animation: bootFade 6s forwards;
+}
+
+@keyframes bootFade {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+.boot-text {
+    font-size: 1rem;
+    line-height: 1.8;
+    opacity: 0.9;
+    text-shadow: 0 0 12px var(--neon);
+}
+
+/* ===== MATRIX RAIN ===== */
+.matrix {
+    position: fixed;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(0,255,179,0.08) 0px,
+            rgba(0,255,179,0.08) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+    animation: matrixMove 18s linear infinite;
+    opacity: 0.08;
     pointer-events: none;
     z-index: 1;
 }
 
-/* ===== HORIZONTAL SIGNAL SCAN ===== */
+@keyframes matrixMove {
+    from { background-position-y: 0; }
+    to { background-position-y: 100%; }
+}
+
+/* ===== HUD GRID ===== */
+.hud {
+    position: fixed;
+    inset: 0;
+    background:
+        linear-gradient(rgba(0,255,179,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,179,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ===== SCAN BEAM ===== */
 .stApp::before {
     content: "";
     position: fixed;
     inset: 0;
     background: linear-gradient(
         to bottom,
-        transparent 0%,
-        rgba(0,255,179,0.08) 50%,
-        transparent 100%
+        transparent,
+        rgba(0,255,179,0.08),
+        transparent
     );
-    animation: scanBeam 7s linear infinite;
+    animation: scan 7s linear infinite;
     pointer-events: none;
-    z-index: 1;
+    z-index: 2;
 }
 
-@keyframes scanBeam {
+@keyframes scan {
     from { transform: translateY(-120%); }
     to { transform: translateY(120%); }
 }
 
-/* ===== MAIN PANEL ===== */
+/* ===== PANEL ===== */
 .block-container {
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: 20px;
-    padding: 34px;
+    padding: 36px;
     box-shadow:
-        0 0 35px var(--glow),
-        inset 0 0 30px rgba(0,255,179,0.06);
+        0 0 40px var(--glow),
+        inset 0 0 30px rgba(0,255,179,0.05);
     position: relative;
-    z-index: 2;
+    z-index: 3;
 }
 
-/* ===== BOOT SEQUENCE TEXT ===== */
-.boot {
-    font-size: 0.9rem;
-    opacity: 0.85;
-    line-height: 1.6;
-    animation: bootGlow 2.5s ease-in-out infinite alternate;
-}
-
-@keyframes bootGlow {
-    from { text-shadow: 0 0 4px var(--neon); }
-    to { text-shadow: 0 0 10px var(--neon); }
-}
-
-/* ===== HEADER (EVENT GLITCH) ===== */
-@keyframes cinematicGlitch {
-    0% { text-shadow: 0 0 8px var(--neon); }
-    48% { text-shadow: 0 0 8px var(--neon); }
-    49% { text-shadow: -2px 0 #00ffd5, 2px 0 #00cc99; }
-    50% { text-shadow: 0 0 10px var(--neon); }
-    100% { text-shadow: 0 0 8px var(--neon); }
+/* ===== HEADER GLITCH (RARE) ===== */
+@keyframes glitch {
+    0%, 96%, 100% { text-shadow: 0 0 8px var(--neon); }
+    97% { text-shadow: -2px 0 #00ffd5, 2px 0 #00cc99; }
 }
 
 h1 {
-    animation: cinematicGlitch 12s infinite;
+    animation: glitch 14s infinite;
     letter-spacing: 3px;
 }
 
-/* ===== TYPEWRITER STATUS ===== */
+/* ===== TYPE LINE ===== */
 .typewriter {
     white-space: nowrap;
     overflow: hidden;
     border-right: 2px solid var(--neon);
     width: 0;
     animation:
-        typing 3.5s steps(44, end) forwards,
+        typing 3.5s steps(40, end) forwards,
         blink 0.8s infinite;
 }
 
 @keyframes typing {
     to { width: 100%; }
 }
-
 @keyframes blink {
     50% { border-color: transparent; }
 }
 
-/* ===== INPUT TERMINAL ===== */
+/* ===== INPUTS ===== */
 .stTextInput input,
 .stTextArea textarea {
     background: rgba(0,0,0,0.7);
     color: var(--neon);
     border: 1px solid var(--line);
     border-radius: 14px;
-    box-shadow: inset 0 0 14px rgba(0,255,179,0.1);
 }
 
-/* ===== TACTICAL BUTTONS ===== */
+/* ===== BUTTONS ===== */
 .stButton > button {
     background: transparent;
     color: var(--neon);
     border: 1.6px solid var(--neon);
     border-radius: 14px;
     font-weight: 700;
-    letter-spacing: 1.2px;
-    transition: all 0.25s ease;
+    letter-spacing: 1.1px;
+    transition: 0.25s;
 }
 
 .stButton > button:hover {
@@ -164,7 +192,7 @@ h1 {
 
 /* ===== TABS ===== */
 .stTabs [data-baseweb="tab"] {
-    background: rgba(0,0,0,0.55);
+    background: rgba(0,0,0,0.6);
     border: 1px solid var(--line);
     border-radius: 12px;
     color: var(--neon);
@@ -175,45 +203,37 @@ h1 {
     color: #00110b !important;
 }
 
-/* ===== DIVIDER ===== */
-hr {
-    border: none;
-    height: 1px;
-    background: linear-gradient(
-        to right,
-        transparent,
-        var(--neon),
-        transparent
-    );
-}
-
 </style>
+
+<!-- BOOT SCREEN -->
+<div id="boot-screen">
+  <div class="boot-text">
+    [ INITIALIZING KAVACH CORE ]<br>
+    → Loading cryptographic engine<br>
+    → Verifying secure memory<br>
+    → Establishing encrypted tunnel<br>
+    → Threat surface: <b>MONITORED</b><br>
+    → Defense grid: <b>ACTIVE</b>
+  </div>
+</div>
+
+<div class="matrix"></div>
+<div class="hud"></div>
 """, unsafe_allow_html=True)
 
 # =========================
-# UI CONTENT
+# MAIN UI
 # =========================
 st.title("🛡️ PROJECT KAVACH")
 
-st.markdown("""
-<div class="boot">
-[ BOOT SEQUENCE INITIALIZED ]<br>
-→ Loading cryptographic modules<br>
-→ Verifying entropy sources<br>
-→ Secure enclave established<br>
-→ Defense matrix: <b>ONLINE</b>
-</div>
-""", unsafe_allow_html=True)
-
 st.markdown(
-    '<div class="typewriter">[ SYSTEM ONLINE • SECURE CHANNEL ACTIVE ]</div>',
+    '<div class="typewriter">[ SYSTEM ONLINE • MILITARY-GRADE ENCRYPTION ENABLED ]</div>',
     unsafe_allow_html=True
 )
 
 st.divider()
 
 tab1, tab2 = st.tabs(["🔒 ENCRYPT", "🔓 DECRYPT"])
-
 
 
 
@@ -356,6 +376,7 @@ with tab2:
                 st.error("❌ Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
 
 
 
