@@ -7,8 +7,12 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
 
+import streamlit as st
+import time
+import random
+
 # =========================
-# PAGE CONFIG (FIRST LINE)
+# PAGE CONFIG
 # =========================
 st.set_page_config(
     page_title="Project KAVACH",
@@ -17,29 +21,26 @@ st.set_page_config(
 )
 
 # =========================
-# CINEMATIC CYBER UI
+# ULTRA MODE CYBER UI
 # =========================
 st.markdown("""
 <style>
-
-/* ===== COLOR SYSTEM ===== */
 :root {
     --neon: #00ffb3;
-    --dark: #000402;
-    --panel: rgba(0, 12, 9, 0.95);
+    --danger: #ff003c;
+    --panel: rgba(0, 10, 8, 0.96);
     --line: rgba(0,255,179,0.35);
-    --glow: rgba(0,255,179,0.22);
 }
 
-/* ===== BASE ===== */
+/* BASE */
 .stApp {
     background: radial-gradient(circle at top, #02231a, #000);
     color: var(--neon);
     font-family: "JetBrains Mono", Consolas, monospace;
 }
 
-/* ===== FULLSCREEN BOOT OVERLAY ===== */
-#boot-screen {
+/* BOOT OVERLAY */
+#boot {
     position: fixed;
     inset: 0;
     background: black;
@@ -47,173 +48,115 @@ st.markdown("""
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    animation: bootFade 6s forwards;
+    animation: fade 6s forwards;
+}
+@keyframes fade {
+    0%,80% {opacity:1}
+    100% {opacity:0;visibility:hidden}
 }
 
-@keyframes bootFade {
-    0% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { opacity: 0; visibility: hidden; }
-}
-
-.boot-text {
-    font-size: 1rem;
-    line-height: 1.8;
-    opacity: 0.9;
-    text-shadow: 0 0 12px var(--neon);
-}
-
-/* ===== MATRIX RAIN ===== */
+/* MATRIX */
 .matrix {
     position: fixed;
     inset: 0;
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            rgba(0,255,179,0.08) 0px,
-            rgba(0,255,179,0.08) 1px,
-            transparent 1px,
-            transparent 3px
-        );
-    animation: matrixMove 18s linear infinite;
-    opacity: 0.08;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(0,255,179,0.1) 0px,
+        rgba(0,255,179,0.1) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    animation: matrix 18s linear infinite;
+    opacity: .08;
     pointer-events: none;
-    z-index: 1;
+}
+@keyframes matrix {
+    from {background-position-y:0}
+    to {background-position-y:100%}
 }
 
-@keyframes matrixMove {
-    from { background-position-y: 0; }
-    to { background-position-y: 100%; }
-}
-
-/* ===== HUD GRID ===== */
+/* HUD GRID */
 .hud {
     position: fixed;
     inset: 0;
     background:
-        linear-gradient(rgba(0,255,179,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,179,0.04) 1px, transparent 1px);
+      linear-gradient(rgba(0,255,179,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,179,0.04) 1px, transparent 1px);
     background-size: 60px 60px;
-    opacity: 0.35;
     pointer-events: none;
-    z-index: 1;
 }
 
-/* ===== SCAN BEAM ===== */
+/* SCAN */
 .stApp::before {
-    content: "";
+    content:"";
     position: fixed;
-    inset: 0;
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(0,255,179,0.08),
-        transparent
-    );
+    inset:0;
+    background: linear-gradient(transparent, rgba(0,255,179,.08), transparent);
     animation: scan 7s linear infinite;
-    pointer-events: none;
-    z-index: 2;
+    pointer-events:none;
 }
-
 @keyframes scan {
-    from { transform: translateY(-120%); }
-    to { transform: translateY(120%); }
+    from {transform:translateY(-120%)}
+    to {transform:translateY(120%)}
 }
 
-/* ===== PANEL ===== */
+/* PANEL */
 .block-container {
     background: var(--panel);
     border: 1px solid var(--line);
-    border-radius: 20px;
+    border-radius: 18px;
     padding: 36px;
-    box-shadow:
-        0 0 40px var(--glow),
-        inset 0 0 30px rgba(0,255,179,0.05);
+    box-shadow: 0 0 45px rgba(0,255,179,.2);
     position: relative;
     z-index: 3;
 }
 
-/* ===== HEADER GLITCH (RARE) ===== */
-@keyframes glitch {
-    0%, 96%, 100% { text-shadow: 0 0 8px var(--neon); }
-    97% { text-shadow: -2px 0 #00ffd5, 2px 0 #00cc99; }
+/* THREAT BAR */
+.threat {
+    height: 6px;
+    width: 100%;
+    background: linear-gradient(
+        90deg,
+        #00ffb3,
+        #ffe600,
+        var(--danger)
+    );
+    animation: threatPulse 2s infinite;
+}
+@keyframes threatPulse {
+    0% {filter:brightness(1)}
+    50% {filter:brightness(1.6)}
+    100% {filter:brightness(1)}
 }
 
+/* ALERT FLASH */
+.alert {
+    animation: alertFlash .8s infinite;
+}
+@keyframes alertFlash {
+    0% {box-shadow: 0 0 10px var(--danger)}
+    50% {box-shadow: 0 0 35px var(--danger)}
+    100% {box-shadow: 0 0 10px var(--danger)}
+}
+
+/* TEXT */
 h1 {
-    animation: glitch 14s infinite;
     letter-spacing: 3px;
+    animation: glitch 12s infinite;
 }
-
-/* ===== TYPE LINE ===== */
-.typewriter {
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 2px solid var(--neon);
-    width: 0;
-    animation:
-        typing 3.5s steps(40, end) forwards,
-        blink 0.8s infinite;
+@keyframes glitch {
+    0%,96% {text-shadow:0 0 8px var(--neon)}
+    97% {text-shadow:-2px 0 #00ffd5,2px 0 #00cc99}
+    100% {text-shadow:0 0 8px var(--neon)}
 }
-
-@keyframes typing {
-    to { width: 100%; }
-}
-@keyframes blink {
-    50% { border-color: transparent; }
-}
-
-/* ===== INPUTS ===== */
-.stTextInput input,
-.stTextArea textarea {
-    background: rgba(0,0,0,0.7);
-    color: var(--neon);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-}
-
-/* ===== BUTTONS ===== */
-.stButton > button {
-    background: transparent;
-    color: var(--neon);
-    border: 1.6px solid var(--neon);
-    border-radius: 14px;
-    font-weight: 700;
-    letter-spacing: 1.1px;
-    transition: 0.25s;
-}
-
-.stButton > button:hover {
-    background: var(--neon);
-    color: #00110b;
-    box-shadow: 0 0 30px var(--neon);
-    transform: translateY(-1px);
-}
-
-/* ===== TABS ===== */
-.stTabs [data-baseweb="tab"] {
-    background: rgba(0,0,0,0.6);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    color: var(--neon);
-}
-
-.stTabs [aria-selected="true"] {
-    background: var(--neon) !important;
-    color: #00110b !important;
-}
-
 </style>
 
-<!-- BOOT SCREEN -->
-<div id="boot-screen">
-  <div class="boot-text">
-    [ INITIALIZING KAVACH CORE ]<br>
-    → Loading cryptographic engine<br>
-    → Verifying secure memory<br>
-    → Establishing encrypted tunnel<br>
-    → Threat surface: <b>MONITORED</b><br>
-    → Defense grid: <b>ACTIVE</b>
+<div id="boot">
+  <div>
+    [ KAVACH CORE BOOT ]<br>
+    Loading crypto engine...<br>
+    Establishing secure tunnel...<br>
+    AI defense grid online...
   </div>
 </div>
 
@@ -222,20 +165,48 @@ h1 {
 """, unsafe_allow_html=True)
 
 # =========================
-# MAIN UI
+# HEADER
 # =========================
 st.title("🛡️ PROJECT KAVACH")
+st.markdown("### [ SYSTEM ONLINE • DEFENSE MATRIX ACTIVE ]")
 
-st.markdown(
-    '<div class="typewriter">[ SYSTEM ONLINE • MILITARY-GRADE ENCRYPTION ENABLED ]</div>',
-    unsafe_allow_html=True
-)
+# =========================
+# THREAT LEVEL
+# =========================
+st.markdown("#### ⚠️ THREAT LEVEL")
+st.markdown('<div class="threat"></div>', unsafe_allow_html=True)
+
+# =========================
+# LIVE TERMINAL LOGS
+# =========================
+st.markdown("#### 📡 LIVE SECURITY FEED")
+
+log_box = st.empty()
+logs = []
+
+for _ in range(8):
+    logs.append(
+        f"[{time.strftime('%H:%M:%S')}] "
+        f"NODE-{random.randint(10,99)} :: "
+        f"{random.choice(['SCAN OK','INTRUSION BLOCKED','ENCRYPTION VERIFIED','PACKET DROPPED'])}"
+    )
+    log_box.code("\n".join(logs[-8:]), language="bash")
+    time.sleep(0.2)
 
 st.divider()
 
+# =========================
+# TABS
+# =========================
 tab1, tab2 = st.tabs(["🔒 ENCRYPT", "🔓 DECRYPT"])
 
+with tab1:
+    st.text_area("INPUT DATA")
+    st.button("INITIATE ENCRYPTION")
 
+with tab2:
+    st.text_area("ENCRYPTED PAYLOAD")
+    st.button("INITIATE DECRYPTION")
 
 
 
@@ -376,6 +347,7 @@ with tab2:
                 st.error("❌ Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
 
 
 
