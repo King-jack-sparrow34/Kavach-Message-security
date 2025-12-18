@@ -16,38 +16,129 @@ st.set_page_config(
 )
 
 # =========================
-# CYBERPUNK UI
+# FINAL CYBER UI + GLITCH
 # =========================
-st.markdown("""
-<style>
-.stApp {
-    background:#000;
-    color:#00ff00;
-    font-family:Courier New, monospace;
-}
-.block-container {
-    background: rgba(0,0,0,0.88);
-    border: 1px solid #00ff00;
-    border-radius: 16px;
-    padding: 30px;
-}
-input, textarea {
-    background:#000 !important;
-    color:#00ff00 !important;
-    border:1px solid #00ff00 !important;
-}
-button {
-    border:2px solid #00ff00 !important;
-    background:transparent !important;
-    color:#00ff00 !important;
-    font-weight:bold !important;
-}
-button:hover {
-    background:#00ff00 !important;
-    color:#000 !important;
-}
-</style>
-""", unsafe_allow_html=True)
+st.markdown(
+    """
+    <style>
+
+    /* BASE */
+    .stApp {
+        background-color: #000;
+        color: #00ff00;
+        font-family: "Courier New", monospace;
+    }
+
+    /* SCANLINES */
+    .stApp::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: repeating-linear-gradient(
+            180deg,
+            rgba(0,255,0,0.04) 0px,
+            rgba(0,255,0,0.04) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+        animation: scan 3.5s linear infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    @keyframes scan {
+        from { background-position: 0 0; }
+        to { background-position: 0 100%; }
+    }
+
+    /* PANEL */
+    .block-container {
+        position: relative;
+        z-index: 1;
+        background: rgba(0,0,0,0.88);
+        border: 1px solid #00ff00;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 0 25px rgba(0,255,0,0.15);
+    }
+
+    /* GLITCH TEXT */
+    @keyframes glitch {
+        0%   { text-shadow: 2px 0 #00ff00; }
+        25%  { text-shadow: -2px 0 #ff0055; }
+        50%  { text-shadow: 2px 0 #00ffff; }
+        75%  { text-shadow: -2px 0 #00ff00; }
+        100% { text-shadow: 2px 0 #ff0055; }
+    }
+
+    h1, h2, h3 {
+        animation: glitch 1.3s infinite;
+    }
+
+    /* TYPE EFFECT */
+    .typewriter {
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: 2px solid #00ff00;
+        width: 0;
+        animation: typing 4s steps(40, end) infinite alternate,
+                   blink 0.7s infinite;
+    }
+
+    @keyframes typing {
+        from { width: 0; }
+        to   { width: 100%; }
+    }
+
+    @keyframes blink {
+        50% { border-color: transparent; }
+    }
+
+    /* INPUTS */
+    .stTextInput input,
+    .stTextArea textarea,
+    .stFileUploader {
+        background: rgba(0,0,0,0.7);
+        color: #00ff00;
+        border: 1px solid #00ff00;
+        border-radius: 10px;
+    }
+
+    /* BUTTONS */
+    .stButton > button {
+        background: transparent;
+        color: #00ff00;
+        border: 2px solid #00ff00;
+        border-radius: 12px;
+        font-weight: bold;
+        width: 100%;
+        transition: 0.3s;
+    }
+
+    .stButton > button:hover {
+        background: #00ff00;
+        color: #000;
+        box-shadow: 0 0 15px #00ff00;
+        transform: scale(1.03);
+    }
+
+    /* TABS */
+    .stTabs [data-baseweb="tab"] {
+        background: rgba(0,0,0,0.6);
+        border: 1px solid #00ff00;
+        border-radius: 10px;
+        color: #00ff00;
+    }
+
+    .stTabs [aria-selected="true"] {
+        background: #00ff00 !important;
+        color: #000 !important;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # =========================
 # CRYPTO FUNCTIONS (BYTE SAFE)
@@ -165,3 +256,4 @@ with tab2:
                 st.error("❌ Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
