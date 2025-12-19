@@ -5,73 +5,72 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
-import time
+# =========================
+# AI SENTIENCE ENGINE
+# =========================
 import random
+import time
 
-st.markdown("""
+# AI STATES
+AI_STATES = {
+    "IDLE": {
+        "color": "#00ffb3",
+        "msg": "System stable. Monitoring background noise."
+    },
+    "ANALYZING": {
+        "color": "#00e5ff",
+        "msg": "Analyzing anomalous behavior patterns."
+    },
+    "ALERT": {
+        "color": "#ff003c",
+        "msg": "⚠️ Threat detected. Initiating countermeasures."
+    },
+    "SECURED": {
+        "color": "#00ff6a",
+        "msg": "Threat neutralized. System integrity restored."
+    }
+}
+
+if "ai_state" not in st.session_state:
+    st.session_state.ai_state = "IDLE"
+
+# Random state transitions (cinematic illusion)
+if random.random() > 0.75:
+    st.session_state.ai_state = random.choice(list(AI_STATES.keys()))
+
+state = st.session_state.ai_state
+state_color = AI_STATES[state]["color"]
+state_msg = AI_STATES[state]["msg"]
+
+# =========================
+# AI SENTIENCE HUD
+# =========================
+st.markdown(f"""
 <style>
 
-/* ===== AI HUD CORE ===== */
-.ai-hud {
-    position: fixed;
-    right: 28px;
-    bottom: 28px;
-    width: 280px;
-    height: 180px;
-    background: rgba(0, 15, 12, 0.92);
-    border: 1px solid rgba(0,255,179,0.5);
-    border-radius: 18px;
-    padding: 16px;
+/* ===== AI HUD OVERRIDE ===== */
+.ai-hud {{
+    border: 1px solid {state_color};
     box-shadow:
-        0 0 30px rgba(0,255,179,0.25),
-        inset 0 0 20px rgba(0,255,179,0.08);
-    z-index: 999;
-}
+        0 0 35px {state_color},
+        inset 0 0 20px rgba(0,0,0,0.4);
+}}
 
-/* ===== AI HEADER ===== */
-.ai-title {
-    font-size: 0.9rem;
-    letter-spacing: 1.5px;
-    margin-bottom: 8px;
-    text-shadow: 0 0 8px #00ffb3;
-}
+.ai-core {{
+    background: {state_color};
+    box-shadow: 0 0 25px {state_color};
+    animation: pulse-{state} 1.6s infinite;
+}}
 
-/* ===== AI STATUS ===== */
-.ai-status {
-    font-size: 0.8rem;
-    opacity: 0.85;
-    line-height: 1.5;
-}
+@keyframes pulse-{state} {{
+    0% {{ transform: scale(1); opacity: 0.8; }}
+    50% {{ transform: scale(1.8); opacity: 1; }}
+    100% {{ transform: scale(1); opacity: 0.8; }}
+}}
 
-/* ===== AI PULSE ===== */
-.ai-core {
-    width: 14px;
-    height: 14px;
-    background: #00ffb3;
-    border-radius: 50%;
-    box-shadow: 0 0 18px #00ffb3;
-    animation: aiPulse 1.8s infinite;
-    margin-bottom: 10px;
-}
-
-@keyframes aiPulse {
-    0%   { transform: scale(1); opacity: 0.8; }
-    50%  { transform: scale(1.6); opacity: 1; }
-    100% { transform: scale(1); opacity: 0.8; }
-}
-
-/* ===== AI THINKING TEXT ===== */
-.ai-thinking {
-    font-size: 0.75rem;
-    opacity: 0.75;
-    animation: thinking 3s infinite;
-}
-
-@keyframes thinking {
-    0% { opacity: 0.4; }
-    50% { opacity: 1; }
-    100% { opacity: 0.4; }
-}
+.ai-thinking {{
+    color: {state_color};
+}}
 
 </style>
 
@@ -79,15 +78,43 @@ st.markdown("""
     <div class="ai-core"></div>
     <div class="ai-title">AI DEFENSE CORE</div>
     <div class="ai-status">
-        Neural Model: ONLINE<br>
-        Threat Analysis: ACTIVE<br>
-        Packet Integrity: VERIFIED
+        State: <b>{state}</b><br>
+        Neural Confidence: {random.randint(92,99)}%<br>
+        Threat Index: {random.randint(1,7)}/10
     </div>
     <div class="ai-thinking">
-        ► Predicting intrusion vectors...
+        ► {state_msg}
     </div>
 </div>
 """, unsafe_allow_html=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -218,6 +245,7 @@ with tab2:
                 st.error("❌ Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
 
 
 
