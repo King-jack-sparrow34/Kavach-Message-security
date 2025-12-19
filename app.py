@@ -206,12 +206,13 @@ st.divider()
 tab1, tab2 = st.tabs(["🔒 ENCRYPT OPERATIONS", "🔓 DECRYPT OPERATIONS"])
 
 with tab1:
-    st.text_area("SECURE INPUT", height=160)
-    st.button("EXECUTE ENCRYPTION")
+    st.text_area("SECURE INPUT", height=160, key="encrypt_input")
+    st.button("EXECUTE ENCRYPTION", key="encrypt_btn")
 
 with tab2:
-    st.text_area("ENCRYPTED PAYLOAD", height=160)
-    st.button("EXECUTE DECRYPTION")
+    st.text_area("ENCRYPTED PAYLOAD", height=160, key="decrypt_input")
+    st.button("EXECUTE DECRYPTION", key="decrypt_btn")
+
 
 st.markdown("`AI SENTIENCE LOCKED | HUMAN OVERRIDE DISABLED`")
 
@@ -256,12 +257,13 @@ st.divider()
 tab1, tab2 = st.tabs(["🔒 ENCRYPT OPERATIONS", "🔓 DECRYPT OPERATIONS"])
 
 with tab1:
-    st.text_area("SECURE INPUT", height=160)
-    st.button("EXECUTE ENCRYPTION")
+    st.text_area("SECURE INPUT", height=160, key="encrypt_input")
+    st.button("EXECUTE ENCRYPTION", key="encrypt_btn")
 
 with tab2:
-    st.text_area("ENCRYPTED PAYLOAD", height=160)
-    st.button("EXECUTE DECRYPTION")
+    st.text_area("ENCRYPTED PAYLOAD", height=160, key="decrypt_input")
+    st.button("EXECUTE DECRYPTION", key="decrypt_btn")
+
 
 st.markdown("`AI SENTIENCE LOCKED | HUMAN OVERRIDE DISABLED`")
 
@@ -421,6 +423,7 @@ with tab2:
                 st.error("❌ Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
 
 
 
