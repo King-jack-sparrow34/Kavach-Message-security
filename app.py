@@ -8,207 +8,86 @@ from cryptography.hazmat.backends import default_backend
 import time
 import random
 
-
-# =========================
-# PAGE CONFIG
-# =========================
-st.set_page_config(
-    page_title="Project KAVACH",
-    page_icon="🛡️",
-    layout="wide"
-)
-
-# =========================
-# ULTRA MODE CYBER UI
-# =========================
 st.markdown("""
 <style>
-:root {
-    --neon: #00ffb3;
-    --danger: #ff003c;
-    --panel: rgba(0, 10, 8, 0.96);
-    --line: rgba(0,255,179,0.35);
-}
 
-/* BASE */
-.stApp {
-    background: radial-gradient(circle at top, #02231a, #000);
-    color: var(--neon);
-    font-family: "JetBrains Mono", Consolas, monospace;
-}
-
-/* BOOT OVERLAY */
-#boot {
+/* ===== AI HUD CORE ===== */
+.ai-hud {
     position: fixed;
-    inset: 0;
-    background: black;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: fade 6s forwards;
-}
-@keyframes fade {
-    0%,80% {opacity:1}
-    100% {opacity:0;visibility:hidden}
-}
-
-/* MATRIX */
-.matrix {
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(
-        to bottom,
-        rgba(0,255,179,0.1) 0px,
-        rgba(0,255,179,0.1) 1px,
-        transparent 1px,
-        transparent 3px
-    );
-    animation: matrix 18s linear infinite;
-    opacity: .08;
-    pointer-events: none;
-}
-@keyframes matrix {
-    from {background-position-y:0}
-    to {background-position-y:100%}
-}
-
-/* HUD GRID */
-.hud {
-    position: fixed;
-    inset: 0;
-    background:
-      linear-gradient(rgba(0,255,179,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,255,179,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-}
-
-/* SCAN */
-.stApp::before {
-    content:"";
-    position: fixed;
-    inset:0;
-    background: linear-gradient(transparent, rgba(0,255,179,.08), transparent);
-    animation: scan 7s linear infinite;
-    pointer-events:none;
-}
-@keyframes scan {
-    from {transform:translateY(-120%)}
-    to {transform:translateY(120%)}
-}
-
-/* PANEL */
-.block-container {
-    background: var(--panel);
-    border: 1px solid var(--line);
+    right: 28px;
+    bottom: 28px;
+    width: 280px;
+    height: 180px;
+    background: rgba(0, 15, 12, 0.92);
+    border: 1px solid rgba(0,255,179,0.5);
     border-radius: 18px;
-    padding: 36px;
-    box-shadow: 0 0 45px rgba(0,255,179,.2);
-    position: relative;
-    z-index: 3;
+    padding: 16px;
+    box-shadow:
+        0 0 30px rgba(0,255,179,0.25),
+        inset 0 0 20px rgba(0,255,179,0.08);
+    z-index: 999;
 }
 
-/* THREAT BAR */
-.threat {
-    height: 6px;
-    width: 100%;
-    background: linear-gradient(
-        90deg,
-        #00ffb3,
-        #ffe600,
-        var(--danger)
-    );
-    animation: threatPulse 2s infinite;
-}
-@keyframes threatPulse {
-    0% {filter:brightness(1)}
-    50% {filter:brightness(1.6)}
-    100% {filter:brightness(1)}
+/* ===== AI HEADER ===== */
+.ai-title {
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    text-shadow: 0 0 8px #00ffb3;
 }
 
-/* ALERT FLASH */
-.alert {
-    animation: alertFlash .8s infinite;
-}
-@keyframes alertFlash {
-    0% {box-shadow: 0 0 10px var(--danger)}
-    50% {box-shadow: 0 0 35px var(--danger)}
-    100% {box-shadow: 0 0 10px var(--danger)}
+/* ===== AI STATUS ===== */
+.ai-status {
+    font-size: 0.8rem;
+    opacity: 0.85;
+    line-height: 1.5;
 }
 
-/* TEXT */
-h1 {
-    letter-spacing: 3px;
-    animation: glitch 12s infinite;
+/* ===== AI PULSE ===== */
+.ai-core {
+    width: 14px;
+    height: 14px;
+    background: #00ffb3;
+    border-radius: 50%;
+    box-shadow: 0 0 18px #00ffb3;
+    animation: aiPulse 1.8s infinite;
+    margin-bottom: 10px;
 }
-@keyframes glitch {
-    0%,96% {text-shadow:0 0 8px var(--neon)}
-    97% {text-shadow:-2px 0 #00ffd5,2px 0 #00cc99}
-    100% {text-shadow:0 0 8px var(--neon)}
+
+@keyframes aiPulse {
+    0%   { transform: scale(1); opacity: 0.8; }
+    50%  { transform: scale(1.6); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
 }
+
+/* ===== AI THINKING TEXT ===== */
+.ai-thinking {
+    font-size: 0.75rem;
+    opacity: 0.75;
+    animation: thinking 3s infinite;
+}
+
+@keyframes thinking {
+    0% { opacity: 0.4; }
+    50% { opacity: 1; }
+    100% { opacity: 0.4; }
+}
+
 </style>
 
-<div id="boot">
-  <div>
-    [ KAVACH CORE BOOT ]<br>
-    Loading crypto engine...<br>
-    Establishing secure tunnel...<br>
-    AI defense grid online...
-  </div>
+<div class="ai-hud">
+    <div class="ai-core"></div>
+    <div class="ai-title">AI DEFENSE CORE</div>
+    <div class="ai-status">
+        Neural Model: ONLINE<br>
+        Threat Analysis: ACTIVE<br>
+        Packet Integrity: VERIFIED
+    </div>
+    <div class="ai-thinking">
+        ► Predicting intrusion vectors...
+    </div>
 </div>
-
-<div class="matrix"></div>
-<div class="hud"></div>
 """, unsafe_allow_html=True)
-
-# =========================
-# HEADER
-# =========================
-st.title("🛡️ PROJECT KAVACH")
-st.markdown("### [ SYSTEM ONLINE • DEFENSE MATRIX ACTIVE ]")
-
-# =========================
-# THREAT LEVEL
-# =========================
-st.markdown("#### ⚠️ THREAT LEVEL")
-st.markdown('<div class="threat"></div>', unsafe_allow_html=True)
-
-# =========================
-# LIVE TERMINAL LOGS
-# =========================
-st.markdown("#### 📡 LIVE SECURITY FEED")
-
-log_box = st.empty()
-logs = []
-
-for _ in range(8):
-    logs.append(
-        f"[{time.strftime('%H:%M:%S')}] "
-        f"NODE-{random.randint(10,99)} :: "
-        f"{random.choice(['SCAN OK','INTRUSION BLOCKED','ENCRYPTION VERIFIED','PACKET DROPPED'])}"
-    )
-    log_box.code("\n".join(logs[-8:]), language="bash")
-    time.sleep(0.2)
-
-st.divider()
-
-# =========================
-# TABS
-# =========================
-tab1, tab2 = st.tabs(["🔒 ENCRYPT", "🔓 DECRYPT"])
-
-with tab1:
-    st.text_area("INPUT DATA")
-    st.button("INITIATE ENCRYPTION")
-
-with tab2:
-    st.text_area("ENCRYPTED PAYLOAD")
-    st.button("INITIATE DECRYPTION")
-
-
-
-
 
 
 
@@ -339,6 +218,7 @@ with tab2:
                 st.error("❌ Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
 
 
 
