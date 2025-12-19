@@ -8,6 +8,7 @@ from cryptography.hazmat.backends import default_backend
 import time
 import random
 
+
 # =========================
 # PAGE CONFIG
 # =========================
@@ -220,7 +221,6 @@ with tab2:
 
 
 
-
 # =========================
 # CRYPTO FUNCTIONS (BYTE SAFE)
 # =========================
@@ -339,6 +339,7 @@ with tab2:
                 st.error("❌ Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
 
 
 
