@@ -6,10 +6,10 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 import time
-import math
+import random
 
 st.set_page_config(
-    page_title="PROJECT KAVACH — GOD MODE",
+    page_title="PROJECT KAVACH — DARK OPS",
     page_icon="🛡️",
     layout="wide"
 )
@@ -17,13 +17,13 @@ st.set_page_config(
 st.markdown("""
 <style>
 html, body, [class*="css"] {
-    background-color: #000000;
-    color: #00ffcc;
+    background-color: #050608;
+    color: #7CFF00;
     font-family: 'Courier New', monospace;
 }
 
 .stApp {
-    background: radial-gradient(circle at center, #001010 0%, #000000 60%);
+    background: radial-gradient(circle at center, #0a0f12 0%, #050608 65%);
 }
 
 /* SCANLINES */
@@ -33,12 +33,12 @@ html, body, [class*="css"] {
     inset: 0;
     background: repeating-linear-gradient(
         180deg,
-        rgba(0,255,204,0.03) 0px,
-        rgba(0,255,204,0.03) 1px,
+        rgba(124,255,0,0.025) 0px,
+        rgba(124,255,0,0.025) 1px,
         transparent 1px,
-        transparent 4px
+        transparent 5px
     );
-    animation: scan 6s linear infinite;
+    animation: scan 8s linear infinite;
     pointer-events: none;
     z-index: 0;
 }
@@ -48,107 +48,114 @@ html, body, [class*="css"] {
     to { background-position: 0 100%; }
 }
 
-/* HUD PANEL */
+/* COMMAND PANEL */
 .block-container {
-    border: 1px solid #00ffcc;
-    border-radius: 20px;
-    padding: 25px;
-    box-shadow: 0 0 40px rgba(0,255,204,0.2);
-    background: rgba(0,0,0,0.85);
+    background: rgba(0,0,0,0.82);
+    border: 1px solid rgba(124,255,0,0.35);
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 0 60px rgba(124,255,0,0.12);
 }
 
 /* GLITCH TITLE */
 @keyframes glitch {
-    0% { text-shadow: 2px 0 #00ffcc; }
-    25% { text-shadow: -2px 0 #ff0055; }
-    50% { text-shadow: 2px 0 #00ffff; }
-    75% { text-shadow: -2px 0 #00ffcc; }
-    100% { text-shadow: 2px 0 #ff0055; }
+    0% { text-shadow: 2px 0 #7CFF00; }
+    25% { text-shadow: -2px 0 #FF0033; }
+    50% { text-shadow: 2px 0 #00FFD5; }
+    75% { text-shadow: -2px 0 #7CFF00; }
+    100% { text-shadow: 2px 0 #FF0033; }
 }
 
 h1 {
-    animation: glitch 1.4s infinite;
+    animation: glitch 1.6s infinite;
 }
 
-/* TERMINAL TEXT */
-.terminal {
-    background: rgba(0,0,0,0.7);
-    border: 1px solid #00ffcc;
-    border-radius: 12px;
-    padding: 15px;
-    height: 300px;
-    overflow: hidden;
-}
-
-/* PULSE CORE */
-.core {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    border: 2px solid #00ffcc;
-    margin: auto;
-    box-shadow: 0 0 40px #00ffcc;
-    animation: pulse 2.5s infinite;
+/* RADAR DOT */
+.dot {
+    fill: #ff0033;
+    animation: pulse 1.8s infinite;
 }
 
 @keyframes pulse {
-    0% { box-shadow: 0 0 20px #00ffcc; }
-    50% { box-shadow: 0 0 80px #00ffcc; }
-    100% { box-shadow: 0 0 20px #00ffcc; }
+    0% { r: 3; opacity: 0.4; }
+    50% { r: 6; opacity: 1; }
+    100% { r: 3; opacity: 0.4; }
+}
+
+/* STATUS TEXT */
+.status {
+    color: #7CFF00;
+    font-size: 14px;
+    opacity: 0.85;
 }
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🛡️ PROJECT KAVACH — AI COMMAND CORE")
+st.title("🛡️ PROJECT KAVACH — DARK OPS COMMAND")
 
-st.markdown("`SYSTEM STATUS: FULL AI SENTIENCE | GOD MODE ENABLED`")
+st.markdown("`CLASSIFICATION: TOP SECRET | AUTONOMOUS AI WAR MODE`")
 st.divider()
 
-left, center, right = st.columns([1.2, 1, 1.2])
+left, center, right = st.columns([1.2, 1.6, 1.2])
 
 with left:
-    st.subheader("🌐 GLOBAL THREAT FEED")
-    terminal = st.empty()
+    st.subheader("📡 THREAT LOG")
+    log_box = st.empty()
     logs = [
-        "Initializing neural lattice...",
-        "Quantum encryption online",
-        "Satellite uplink secured",
-        "Foreign intrusion detected",
-        "Counter-AI deployed",
-        "Threat neutralized",
-        "System stable"
+        "Initializing global sensors",
+        "Establishing satellite lock",
+        "Foreign signal triangulated",
+        "Zero-day exploit detected",
+        "Counter-measure deployed",
+        "Hostile node neutralized",
+        "Network integrity restored"
     ]
 
-    text = ""
-    for log in logs:
-        text += f"> {log}\n"
-        terminal.markdown(f"<div class='terminal'>{text}</div>", unsafe_allow_html=True)
-        time.sleep(0.4)
+    output = ""
+    for l in logs:
+        output += f"> {l}\n"
+        log_box.code(output)
+        time.sleep(0.35)
 
 with center:
-    st.subheader("🧠 AI NEURAL CORE")
-    st.markdown("<div class='core'></div>", unsafe_allow_html=True)
-    st.markdown("**CONSCIOUSNESS LEVEL:** 100%")
-    st.markdown("**DECISION LATENCY:** 0.002ms")
+    st.subheader("🌍 GLOBAL CYBER ATTACK MAP")
+
+    attacks = ""
+    for _ in range(8):
+        x = random.randint(40, 760)
+        y = random.randint(40, 360)
+        attacks += f"<circle cx='{x}' cy='{y}' class='dot' />"
+
+    st.markdown(f"""
+    <svg viewBox="0 0 800 400" width="100%" height="380"
+         style="border:1px solid rgba(124,255,0,0.3); border-radius:14px;">
+        <rect width="100%" height="100%" fill="#030405"/>
+        <text x="20" y="30" fill="#7CFF00" font-size="14">LIVE CYBER THEATRE</text>
+        {attacks}
+    </svg>
+    """, unsafe_allow_html=True)
 
 with right:
-    st.subheader("📡 LIVE METRICS")
-    st.metric("Threats Tracked", "128", "+12")
-    st.metric("Systems Protected", "9,842", "+221")
-    st.metric("Encryption Depth", "AES-512")
-    st.metric("AI Autonomy", "MAX")
+    st.subheader("🪖 MILITARY STATUS")
+    st.metric("Active Threats", "147", "+19")
+    st.metric("Defense Nodes", "12,481", "+402")
+    st.metric("AI Autonomy", "100%")
+    st.metric("Alert Level", "DEFCON 1")
 
 st.divider()
 
-tab1, tab2 = st.tabs(["🔒 ENCRYPT", "🔓 DECRYPT"])
+tab1, tab2 = st.tabs(["🔒 ENCRYPT OPS", "🔓 DECRYPT OPS"])
 
 with tab1:
-    st.text_area("INPUT DATA", height=150)
-    st.button("EXECUTE ENCRYPTION")
+    st.text_area("PLAINTEXT INPUT", height=160)
+    st.button("EXECUTE MILITARY ENCRYPTION")
 
 with tab2:
-    st.text_area("SECURE PAYLOAD", height=150)
-    st.button("EXECUTE DECRYPTION")
+    st.text_area("ENCRYPTED PAYLOAD", height=160)
+    st.button("EXECUTE MILITARY DECRYPTION")
+
+st.markdown("<div class='status'>AI CORE STATUS: STABLE | SENTIENCE LOCKED</div>", unsafe_allow_html=True)
+
 
 
 
@@ -307,6 +314,7 @@ with tab2:
                 st.error("❌ Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
 
 
 
