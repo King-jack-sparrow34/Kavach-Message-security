@@ -9,7 +9,7 @@ import time
 import random
 
 st.set_page_config(
-    page_title="PROJECT KAVACH — CLASSIFIED",
+    page_title="PROJECT KAVACH — DARK OPS",
     page_icon="🛡️",
     layout="wide"
 )
@@ -17,22 +17,13 @@ st.set_page_config(
 st.markdown("""
 <style>
 html, body, [class*="css"] {
-    background-color: #020304;
+    background-color: #050608;
     color: #7CFF00;
     font-family: 'Courier New', monospace;
 }
 
 .stApp {
-    background: radial-gradient(circle at center, #0a0f12 0%, #020304 70%);
-}
-
-/* FULL SCREEN TERMINAL MODE */
-.block-container {
-    border: 1px solid rgba(124,255,0,0.3);
-    border-radius: 18px;
-    padding: 26px;
-    box-shadow: 0 0 70px rgba(124,255,0,0.15);
-    background: rgba(0,0,0,0.9);
+    background: radial-gradient(circle at center, #0a0f12 0%, #050608 65%);
 }
 
 /* SCANLINES */
@@ -42,12 +33,12 @@ html, body, [class*="css"] {
     inset: 0;
     background: repeating-linear-gradient(
         180deg,
-        rgba(124,255,0,0.02) 0px,
-        rgba(124,255,0,0.02) 1px,
+        rgba(124,255,0,0.025) 0px,
+        rgba(124,255,0,0.025) 1px,
         transparent 1px,
-        transparent 6px
+        transparent 5px
     );
-    animation: scan 9s linear infinite;
+    animation: scan 8s linear infinite;
     pointer-events: none;
     z-index: 0;
 }
@@ -55,6 +46,15 @@ html, body, [class*="css"] {
 @keyframes scan {
     from { background-position: 0 0; }
     to { background-position: 0 100%; }
+}
+
+/* COMMAND PANEL */
+.block-container {
+    background: rgba(0,0,0,0.82);
+    border: 1px solid rgba(124,255,0,0.35);
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 0 60px rgba(124,255,0,0.12);
 }
 
 /* GLITCH TITLE */
@@ -70,211 +70,91 @@ h1 {
     animation: glitch 1.6s infinite;
 }
 
-/* BOOT SCREEN */
-.boot {
-    text-align: center;
-    padding-top: 120px;
-    font-size: 18px;
-}
-
-/* AI CORE */
-.core {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    border: 2px solid #7CFF00;
-    margin: auto;
-    box-shadow: 0 0 70px #7CFF00;
-    animation: pulse 2.8s infinite;
+/* RADAR DOT */
+.dot {
+    fill: #ff0033;
+    animation: pulse 1.8s infinite;
 }
 
 @keyframes pulse {
-    0% { box-shadow: 0 0 25px #7CFF00; }
-    50% { box-shadow: 0 0 110px #7CFF00; }
-    100% { box-shadow: 0 0 25px #7CFF00; }
+    0% { r: 3; opacity: 0.4; }
+    50% { r: 6; opacity: 1; }
+    100% { r: 3; opacity: 0.4; }
 }
 
-/* MAP DOTS */
-.dot {
-    fill: #ff0033;
-    animation: blink 1.6s infinite;
-}
-
-@keyframes blink {
-    0% { opacity: 0.3; r: 3; }
-    50% { opacity: 1; r: 6; }
-    100% { opacity: 0.3; r: 3; }
+/* STATUS TEXT */
+.status {
+    color: #7CFF00;
+    font-size: 14px;
+    opacity: 0.85;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ======================
-# BOOT SEQUENCE (MODE 6)
-# ======================
-boot = st.empty()
-boot_lines = [
-    "INITIALIZING AI CORE...",
-    "LOADING QUANTUM MODULES...",
-    "SECURE MEMORY VERIFIED",
-    "GLOBAL SATELLITE LINK ESTABLISHED",
-    "DEFENSE GRID ONLINE",
-    "AI SENTIENCE CONFIRMED"
-]
+st.title("🛡️ PROJECT KAVACH — DARK OPS COMMAND")
 
-boot_text = ""
-for line in boot_lines:
-    boot_text += f"{line}\n"
-    boot.markdown(f"<div class='boot'><pre>{boot_text}</pre></div>", unsafe_allow_html=True)
-    time.sleep(0.5)
-
-boot.empty()
-
-# ======================
-# MAIN UI
-# ======================
-st.title("🛡️ PROJECT KAVACH — COMMAND INTERFACE")
-st.markdown("`CLASSIFICATION: TOP SECRET | AUTONOMOUS WAR AI ENABLED`")
+st.markdown("`CLASSIFICATION: TOP SECRET | AUTONOMOUS AI WAR MODE`")
 st.divider()
 
 left, center, right = st.columns([1.2, 1.6, 1.2])
 
-# ======================
-# AI TYPING ILLUSION (MODE 7)
-# ======================
 with left:
-    st.subheader("🤖 AI INTERNAL DIALOGUE")
-    ai_box = st.empty()
-    ai_lines = [
-        "Analyzing global network topology...",
-        "Threat probability rising...",
-        "Hostile intent confirmed.",
-        "Deploying countermeasures.",
-        "No human intervention required.",
-        "Mission integrity preserved."
+    st.subheader("📡 THREAT LOG")
+    log_box = st.empty()
+    logs = [
+        "Initializing global sensors",
+        "Establishing satellite lock",
+        "Foreign signal triangulated",
+        "Zero-day exploit detected",
+        "Counter-measure deployed",
+        "Hostile node neutralized",
+        "Network integrity restored"
     ]
 
-    ai_text = ""
-    for l in ai_lines:
-        for c in l:
-            ai_text += c
-            ai_box.code(ai_text)
-            time.sleep(0.015)
-        ai_text += "\n"
-        time.sleep(0.3)
+    output = ""
+    for l in logs:
+        output += f"> {l}\n"
+        log_box.code(output)
+        time.sleep(0.35)
 
-# ======================
-# WORLD MAP + HEAT ZONES (MODE 8)
-# ======================
 with center:
-    st.subheader("🌍 GLOBAL THREAT THEATRE")
+    st.subheader("🌍 GLOBAL CYBER ATTACK MAP")
 
-    dots = ""
-    heat = ""
-    for _ in range(12):
-        x = random.randint(60, 740)
-        y = random.randint(60, 340)
-        dots += f"<circle cx='{x}' cy='{y}' class='dot' />"
-        heat += f"<circle cx='{x}' cy='{y}' r='30' fill='rgba(255,0,0,0.05)' />"
+    attacks = ""
+    for _ in range(8):
+        x = random.randint(40, 760)
+        y = random.randint(40, 360)
+        attacks += f"<circle cx='{x}' cy='{y}' class='dot' />"
 
     st.markdown(f"""
     <svg viewBox="0 0 800 400" width="100%" height="380"
-         style="border:1px solid rgba(124,255,0,0.35); border-radius:14px;">
-        <rect width="100%" height="100%" fill="#020304"/>
-        <text x="20" y="30" fill="#7CFF00" font-size="14">
-            CYBER WAR ZONES — LIVE
-        </text>
-        {heat}
-        {dots}
+         style="border:1px solid rgba(124,255,0,0.3); border-radius:14px;">
+        <rect width="100%" height="100%" fill="#030405"/>
+        <text x="20" y="30" fill="#7CFF00" font-size="14">LIVE CYBER THEATRE</text>
+        {attacks}
     </svg>
     """, unsafe_allow_html=True)
 
-    st.markdown("<div class='core'></div>", unsafe_allow_html=True)
-    st.markdown("**AI CORE STATUS:** ACTIVE")
-
-# ======================
-# FULL TERMINAL / STATS (MODE 9)
-# ======================
 with right:
-    st.subheader("🪖 COMMAND STATUS")
-    st.metric("Active Attacks", "193", "+27")
-    st.metric("Neutralized", "4,882", "+311")
+    st.subheader("🪖 MILITARY STATUS")
+    st.metric("Active Threats", "147", "+19")
+    st.metric("Defense Nodes", "12,481", "+402")
     st.metric("AI Autonomy", "100%")
-    st.metric("Global Alert", "DEFCON 1")
+    st.metric("Alert Level", "DEFCON 1")
 
 st.divider()
 
-tab1, tab2 = st.tabs(["🔒 ENCRYPT OPERATIONS", "🔓 DECRYPT OPERATIONS"])
+tab1, tab2 = st.tabs(["🔒 ENCRYPT OPS", "🔓 DECRYPT OPS"])
 
 with tab1:
-    st.text_area("SECURE INPUT", height=160, key="encrypt_input")
-    st.button("EXECUTE ENCRYPTION", key="encrypt_btn")
+    st.text_area("PLAINTEXT INPUT", height=160)
+    st.button("EXECUTE MILITARY ENCRYPTION")
 
 with tab2:
-    st.text_area("ENCRYPTED PAYLOAD", height=160, key="decrypt_input")
-    st.button("EXECUTE DECRYPTION", key="decrypt_btn")
+    st.text_area("ENCRYPTED PAYLOAD", height=160)
+    st.button("EXECUTE MILITARY DECRYPTION")
 
-
-st.markdown("`AI SENTIENCE LOCKED | HUMAN OVERRIDE DISABLED`")
-
-with center:
-    st.subheader("🌍 GLOBAL THREAT THEATRE")
-
-    dots = ""
-    heat = ""
-    for _ in range(12):
-        x = random.randint(60, 740)
-        y = random.randint(60, 340)
-        dots += f"<circle cx='{x}' cy='{y}' class='dot' />"
-        heat += f"<circle cx='{x}' cy='{y}' r='30' fill='rgba(255,0,0,0.05)' />"
-
-    st.markdown(f"""
-    <svg viewBox="0 0 800 400" width="100%" height="380"
-         style="border:1px solid rgba(124,255,0,0.35); border-radius:14px;">
-        <rect width="100%" height="100%" fill="#020304"/>
-        <text x="20" y="30" fill="#7CFF00" font-size="14">
-            CYBER WAR ZONES — LIVE
-        </text>
-        {heat}
-        {dots}
-    </svg>
-    """, unsafe_allow_html=True)
-
-    st.markdown("<div class='core'></div>", unsafe_allow_html=True)
-    st.markdown("**AI CORE STATUS:** ACTIVE")
-
-# ======================
-# FULL TERMINAL / STATS (MODE 9)
-# ======================
-with right:
-    st.subheader("🪖 COMMAND STATUS")
-    st.metric("Active Attacks", "193", "+27")
-    st.metric("Neutralized", "4,882", "+311")
-    st.metric("AI Autonomy", "100%")
-    st.metric("Global Alert", "DEFCON 1")
-
-st.divider()
-
-tab1, tab2 = st.tabs(["🔒 ENCRYPT OPERATIONS", "🔓 DECRYPT OPERATIONS"])
-
-with tab1:
-    st.text_area("SECURE INPUT", height=160, key="encrypt_input")
-    st.button("EXECUTE ENCRYPTION", key="encrypt_btn")
-
-with tab2:
-    st.text_area("ENCRYPTED PAYLOAD", height=160, key="decrypt_input")
-    st.button("EXECUTE DECRYPTION", key="decrypt_btn")
-
-
-st.markdown("`AI SENTIENCE LOCKED | HUMAN OVERRIDE DISABLED`")
-
-
-
-
-
-
-
-
-
+st.markdown("<div class='status'>AI CORE STATUS: STABLE | SENTIENCE LOCKED</div>", unsafe_allow_html=True)
 
 
 
@@ -423,6 +303,7 @@ with tab2:
                 st.error("❌ Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
 
 
 
