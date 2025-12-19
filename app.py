@@ -5,88 +5,150 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
-# =========================
-# AI SENTIENCE ENGINE
-# =========================
-import random
 import time
+import math
 
-# AI STATES
-AI_STATES = {
-    "IDLE": {
-        "color": "#00ffb3",
-        "msg": "System stable. Monitoring background noise."
-    },
-    "ANALYZING": {
-        "color": "#00e5ff",
-        "msg": "Analyzing anomalous behavior patterns."
-    },
-    "ALERT": {
-        "color": "#ff003c",
-        "msg": "⚠️ Threat detected. Initiating countermeasures."
-    },
-    "SECURED": {
-        "color": "#00ff6a",
-        "msg": "Threat neutralized. System integrity restored."
-    }
+st.set_page_config(
+    page_title="PROJECT KAVACH — GOD MODE",
+    page_icon="🛡️",
+    layout="wide"
+)
+
+st.markdown("""
+<style>
+html, body, [class*="css"] {
+    background-color: #000000;
+    color: #00ffcc;
+    font-family: 'Courier New', monospace;
 }
 
-if "ai_state" not in st.session_state:
-    st.session_state.ai_state = "IDLE"
+.stApp {
+    background: radial-gradient(circle at center, #001010 0%, #000000 60%);
+}
 
-# Random state transitions (cinematic illusion)
-if random.random() > 0.75:
-    st.session_state.ai_state = random.choice(list(AI_STATES.keys()))
+/* SCANLINES */
+.stApp::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+        180deg,
+        rgba(0,255,204,0.03) 0px,
+        rgba(0,255,204,0.03) 1px,
+        transparent 1px,
+        transparent 4px
+    );
+    animation: scan 6s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
 
-state = st.session_state.ai_state
-state_color = AI_STATES[state]["color"]
-state_msg = AI_STATES[state]["msg"]
+@keyframes scan {
+    from { background-position: 0 0; }
+    to { background-position: 0 100%; }
+}
 
-# =========================
-# AI SENTIENCE HUD
-# =========================
-st.markdown(f"""
-<style>
+/* HUD PANEL */
+.block-container {
+    border: 1px solid #00ffcc;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 0 40px rgba(0,255,204,0.2);
+    background: rgba(0,0,0,0.85);
+}
 
-/* ===== AI HUD OVERRIDE ===== */
-.ai-hud {{
-    border: 1px solid {state_color};
-    box-shadow:
-        0 0 35px {state_color},
-        inset 0 0 20px rgba(0,0,0,0.4);
-}}
+/* GLITCH TITLE */
+@keyframes glitch {
+    0% { text-shadow: 2px 0 #00ffcc; }
+    25% { text-shadow: -2px 0 #ff0055; }
+    50% { text-shadow: 2px 0 #00ffff; }
+    75% { text-shadow: -2px 0 #00ffcc; }
+    100% { text-shadow: 2px 0 #ff0055; }
+}
 
-.ai-core {{
-    background: {state_color};
-    box-shadow: 0 0 25px {state_color};
-    animation: pulse-{state} 1.6s infinite;
-}}
+h1 {
+    animation: glitch 1.4s infinite;
+}
 
-@keyframes pulse-{state} {{
-    0% {{ transform: scale(1); opacity: 0.8; }}
-    50% {{ transform: scale(1.8); opacity: 1; }}
-    100% {{ transform: scale(1); opacity: 0.8; }}
-}}
+/* TERMINAL TEXT */
+.terminal {
+    background: rgba(0,0,0,0.7);
+    border: 1px solid #00ffcc;
+    border-radius: 12px;
+    padding: 15px;
+    height: 300px;
+    overflow: hidden;
+}
 
-.ai-thinking {{
-    color: {state_color};
-}}
+/* PULSE CORE */
+.core {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 2px solid #00ffcc;
+    margin: auto;
+    box-shadow: 0 0 40px #00ffcc;
+    animation: pulse 2.5s infinite;
+}
 
+@keyframes pulse {
+    0% { box-shadow: 0 0 20px #00ffcc; }
+    50% { box-shadow: 0 0 80px #00ffcc; }
+    100% { box-shadow: 0 0 20px #00ffcc; }
+}
 </style>
-
-<div class="ai-hud">
-    <div class="ai-core"></div>
-    <div class="ai-title">AI DEFENSE CORE</div>
-    <div class="ai-status">
-        State: <b>{state}</b><br>
-        Neural Confidence: {random.randint(92,99)}%<br>
-        Threat Index: {random.randint(1,7)}/10
-    </div>
-    <div class="ai-thinking">
-        ► {state_msg}
-    </div>
-</div>
 """, unsafe_allow_html=True)
+
+st.title("🛡️ PROJECT KAVACH — AI COMMAND CORE")
+
+st.markdown("`SYSTEM STATUS: FULL AI SENTIENCE | GOD MODE ENABLED`")
+st.divider()
+
+left, center, right = st.columns([1.2, 1, 1.2])
+
+with left:
+    st.subheader("🌐 GLOBAL THREAT FEED")
+    terminal = st.empty()
+    logs = [
+        "Initializing neural lattice...",
+        "Quantum encryption online",
+        "Satellite uplink secured",
+        "Foreign intrusion detected",
+        "Counter-AI deployed",
+        "Threat neutralized",
+        "System stable"
+    ]
+
+    text = ""
+    for log in logs:
+        text += f"> {log}\n"
+        terminal.markdown(f"<div class='terminal'>{text}</div>", unsafe_allow_html=True)
+        time.sleep(0.4)
+
+with center:
+    st.subheader("🧠 AI NEURAL CORE")
+    st.markdown("<div class='core'></div>", unsafe_allow_html=True)
+    st.markdown("**CONSCIOUSNESS LEVEL:** 100%")
+    st.markdown("**DECISION LATENCY:** 0.002ms")
+
+with right:
+    st.subheader("📡 LIVE METRICS")
+    st.metric("Threats Tracked", "128", "+12")
+    st.metric("Systems Protected", "9,842", "+221")
+    st.metric("Encryption Depth", "AES-512")
+    st.metric("AI Autonomy", "MAX")
+
+st.divider()
+
+tab1, tab2 = st.tabs(["🔒 ENCRYPT", "🔓 DECRYPT"])
+
+with tab1:
+    st.text_area("INPUT DATA", height=150)
+    st.button("EXECUTE ENCRYPTION")
+
+with tab2:
+    st.text_area("SECURE PAYLOAD", height=150)
+    st.button("EXECUTE DECRYPTION")
 
 
 
@@ -245,6 +307,7 @@ with tab2:
                 st.error("❌ Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
 
 
 
