@@ -5,166 +5,156 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
+import time
+import random
 
-# =========================
-# PAGE CONFIG
-# =========================
 st.set_page_config(
-    page_title="Project KAVACH",
+    page_title="PROJECT KAVACH — DARK OPS",
     page_icon="🛡️",
     layout="wide"
 )
 
-# =========================
-# FINAL CYBER UI + GLITCH
-# =========================
-st.markdown(
-    """
-    <style>
+st.markdown("""
+<style>
+html, body, [class*="css"] {
+    background-color: #050608;
+    color: #7CFF00;
+    font-family: 'Courier New', monospace;
+}
 
-    /* BASE */
-    .stApp {
-        background-color: #000;
-        color: #00ff00;
-        font-family: "Courier New", monospace;
-    }
+.stApp {
+    background: radial-gradient(circle at center, #0a0f12 0%, #050608 65%);
+}
 
-    /* SCANLINES */
-    .stApp::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background: repeating-linear-gradient(
-            180deg,
-            rgba(0,255,0,0.04) 0px,
-            rgba(0,255,0,0.04) 1px,
-            transparent 1px,
-            transparent 3px
-        );
-        animation: scan 3.5s linear infinite;
-        pointer-events: none;
-        z-index: 0;
-    }
+/* SCANLINES */
+.stApp::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+        180deg,
+        rgba(124,255,0,0.025) 0px,
+        rgba(124,255,0,0.025) 1px,
+        transparent 1px,
+        transparent 5px
+    );
+    animation: scan 8s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
 
-    @keyframes scan {
-        from { background-position: 0 0; }
-        to { background-position: 0 100%; }
-    }
+@keyframes scan {
+    from { background-position: 0 0; }
+    to { background-position: 0 100%; }
+}
 
-    /* PANEL */
-    .block-container {
-        position: relative;
-        z-index: 1;
-        background: rgba(0,0,0,0.88);
-        border: 1px solid #00ff00;
-        border-radius: 16px;
-        padding: 30px;
-        box-shadow: 0 0 25px rgba(0,255,0,0.15);
-    }
+/* COMMAND PANEL */
+.block-container {
+    background: rgba(0,0,0,0.82);
+    border: 1px solid rgba(124,255,0,0.35);
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 0 60px rgba(124,255,0,0.12);
+}
 
-    /* GLITCH TEXT */
-    @keyframes glitch {
-        0%   { text-shadow: 2px 0 #00ff00; }
-        25%  { text-shadow: -2px 0 #ff0055; }
-        50%  { text-shadow: 2px 0 #00ffff; }
-        75%  { text-shadow: -2px 0 #00ff00; }
-        100% { text-shadow: 2px 0 #ff0055; }
-    }
+/* GLITCH TITLE */
+@keyframes glitch {
+    0% { text-shadow: 2px 0 #7CFF00; }
+    25% { text-shadow: -2px 0 #FF0033; }
+    50% { text-shadow: 2px 0 #00FFD5; }
+    75% { text-shadow: -2px 0 #7CFF00; }
+    100% { text-shadow: 2px 0 #FF0033; }
+}
 
-    h1, h2, h3 {
-        animation: glitch 1.3s infinite;
-    }
+h1 {
+    animation: glitch 1.6s infinite;
+}
 
-    /* TYPE EFFECT */
-    .typewriter {
-        white-space: nowrap;
-        overflow: hidden;
-        border-right: 2px solid #00ff00;
-        width: 0;
-        animation: typing 4s steps(40, end) infinite alternate,
-                   blink 0.7s infinite;
-    }
+/* RADAR DOT */
+.dot {
+    fill: #ff0033;
+    animation: pulse 1.8s infinite;
+}
 
-    @keyframes typing {
-        from { width: 0; }
-        to   { width: 100%; }
-    }
+@keyframes pulse {
+    0% { r: 3; opacity: 0.4; }
+    50% { r: 6; opacity: 1; }
+    100% { r: 3; opacity: 0.4; }
+}
 
-    @keyframes blink {
-        50% { border-color: transparent; }
-    }
+/* STATUS TEXT */
+.status {
+    color: #7CFF00;
+    font-size: 14px;
+    opacity: 0.85;
+}
+</style>
+""", unsafe_allow_html=True)
 
-    /* INPUTS */
-    .stTextInput input,
-    .stTextArea textarea,
-    .stFileUploader {
-        background: rgba(0,0,0,0.7);
-        color: #00ff00;
-        border: 1px solid #00ff00;
-        border-radius: 10px;
-    }
+st.title("🛡️ PROJECT KAVACH — DARK OPS COMMAND")
 
-    /* BUTTONS */
-    .stButton > button {
-        background: transparent;
-        color: #00ff00;
-        border: 2px solid #00ff00;
-        border-radius: 12px;
-        font-weight: bold;
-        width: 100%;
-        transition: 0.3s;
-    }
-
-    .stButton > button:hover {
-        background: #00ff00;
-        color: #000;
-        box-shadow: 0 0 15px #00ff00;
-        transform: scale(1.03);
-    }
-
-    /* TABS */
-    .stTabs [data-baseweb="tab"] {
-        background: rgba(0,0,0,0.6);
-        border: 1px solid #00ff00;
-        border-radius: 10px;
-        color: #00ff00;
-    }
-
-    .stTabs [aria-selected="true"] {
-        background: #00ff00 !important;
-        color: #000 !important;
-    }
-
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-# =========================
-# UI
-# =========================
+st.markdown("`CLASSIFICATION: TOP SECRET | AUTONOMOUS AI WAR MODE`")
 st.divider()
-st.title("🛡️ PROJECT KAVACH")
-st.markdown('<div class="typewriter">[ SYSTEM ONLINE • SECURE CHANNEL ACTIVE ]</div>',unsafe_allow_html=True)
+
+left, center, right = st.columns([1.2, 1.6, 1.2])
+
+with left:
+    st.subheader("📡 THREAT LOG")
+    log_box = st.empty()
+    logs = [
+        "Initializing global sensors",
+        "Establishing satellite lock",
+        "Foreign signal triangulated",
+        "Zero-day exploit detected",
+        "Counter-measure deployed",
+        "Hostile node neutralized",
+        "Network integrity restored"
+    ]
+
+    output = ""
+    for l in logs:
+        output += f"> {l}\n"
+        log_box.code(output)
+        time.sleep(0.35)
+
+with center:
+    st.subheader("🌍 GLOBAL CYBER ATTACK MAP")
+
+    attacks = ""
+    for _ in range(8):
+        x = random.randint(40, 760)
+        y = random.randint(40, 360)
+        attacks += f"<circle cx='{x}' cy='{y}' class='dot' />"
+
+    st.markdown(f"""
+    <svg viewBox="0 0 800 400" width="100%" height="380"
+         style="border:1px solid rgba(124,255,0,0.3); border-radius:14px;">
+        <rect width="100%" height="100%" fill="#030405"/>
+        <text x="20" y="30" fill="#7CFF00" font-size="14">LIVE CYBER THEATRE</text>
+        {attacks}
+    </svg>
+    """, unsafe_allow_html=True)
+
+with right:
+    st.subheader("🪖 MILITARY STATUS")
+    st.metric("Active Threats", "147", "+19")
+    st.metric("Defense Nodes", "12,481", "+402")
+    st.metric("AI Autonomy", "100%")
+    st.metric("Alert Level", "DEFCON 1")
+
 st.divider()
-tab1, tab2 = st.tabs(["🔒 ENCRYPT", "🔓 DECRYPT"])
 
+tab1, tab2 = st.tabs(["🔒 ENCRYPT OPS", "🔓 DECRYPT OPS"])
 
+with tab1:
+    st.text_area("PLAINTEXT INPUT", height=160)
+    st.button("EXECUTE MILITARY ENCRYPTION")
 
+with tab2:
+    st.text_area("ENCRYPTED PAYLOAD", height=160)
+    st.button("EXECUTE MILITARY DECRYPTION")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+st.markdown("<div class='status'>AI CORE STATUS: STABLE | SENTIENCE LOCKED</div>", unsafe_allow_html=True)
 
 
 
@@ -297,6 +287,21 @@ with tab2:
                 st.error("❌ Wrong password or corrupted image")
         else:
             st.warning("Upload image & password")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
